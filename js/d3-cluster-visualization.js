@@ -5,7 +5,7 @@ var maxRadius = 50,
 minDistance = 10;
 
 var zoommingFactor = 0.5,
-    radiusFactor = 0.75,
+    radiusFactor = 1,
     distanceFactor = 1;
 
 var numberOfNodes = 0,
@@ -93,18 +93,18 @@ function myGraph() {
         denserNodes.push(orderedNodeInfo[numberOfNodes - 1]);
     }
 
-    this.isDenserLink = function(link) {
-        var denserLink = false;
-        denserNodes.forEach(function(source){
-            if(link.source.id === source.id){
-                denserNodes.forEach(function(target){
-                    if(link.target.id === target.id || denserNodes.length == 1){
-                        denserLink = true;
-                    }
-                });
+    var isDenserNode = function(node) {
+        var isDenser = false;
+        denserNodes.forEach(function(denserNode){
+            if(node.id === denserNode.id){
+                isDenser = true;
             }
-        })
-        return denserLink;
+        });
+        return isDenser;
+    }
+
+    this.isDenserLink = function(link) {
+        return isDenserNode(link.source) || isDenserNode(link.target);
     };
 
     var findNode = function(id) {
@@ -250,8 +250,7 @@ function myGraph() {
                 graph.removeAllLinks
 
                 csvLinks.forEach(function(link) {
-                    if (numberOfNodes <= maxFullyConnectedNodes
-                        || graph.isDenserLink(link) ) {
+                    if (numberOfNodes <= maxFullyConnectedNodes || graph.isDenserLink(link) ) {
                         addLink(link);
                     }
                 });
@@ -313,20 +312,18 @@ function drawGraph() {
     graph = new myGraph("#svgdiv");
 
     // callback for the changes in the network
-    var step = -1;
+    var step = 1;
 
-    function nextval() {
-        step++;
-        return 100 + (100 * step); // initial time, wait time
+    function nextval(delay) {
+        return delay * step++; // initial time, wait time
     }
 
     csvLinks.forEach(function(link) {
-        if (numberOfNodes <= maxFullyConnectedNodes
-            || graph.isDenserLink(link)) {
+        if (numberOfNodes <= maxFullyConnectedNodes || graph.isDenserLink(link)) {
             setTimeout(function() {
                 addLink(link);
                 keepNodesOnTop();
-            }, nextval());
+            }, nextval(25));
         }
     });
 
