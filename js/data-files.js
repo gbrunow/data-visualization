@@ -1,7 +1,7 @@
 function getLinksFile(){
-  return "/data/links.csv";
+  return "https://raw.githubusercontent.com/gbrunow/data-visualization/master/data/links.csv";
 }
 
 function getNodesFile(){
-  return "/data/nodes.csv";
+  return "https://raw.githubusercontent.com/gbrunow/data-visualization/master/data/nodes.csv";
 }
