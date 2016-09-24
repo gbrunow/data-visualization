@@ -1,0 +1,35 @@
+.node text {
+  font: small sans-serif;
+  pointer-events: none;
+  text-anchor: end;
+  fill: #f7f7f7;
+}
+
+.node circle {
+  cursor: pointer;
+}
+
+line.link {
+  fill: none;
+  stroke: #5C636F;
+  /*stroke: #9ecae1;*/
+  stroke-width: 1.5px;
+}
+
+button {
+    position: absolute;
+    width: 30px;
+}
+button#slow {
+    margin-top: 28px;
+}
+button#play {
+    margin-top: 54px;
+}
+button#reset {
+    margin-top: 80px;
+}
+
+body {
+  background-color: #282C34;
+}
